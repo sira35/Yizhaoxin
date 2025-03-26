@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>易招信 - 招聘信息聚合平台</title>
+    <style>
+        :root {
+            --primary-color: #ff7d45;
+            --secondary-color: #ffb168;
+            --tertiary-color: #fff2e6;
+            --text-color: #4a4a4a;
+            --light-text: #6e6e6e;
+            --white: #fff;
+            --highlight: #ff5722;
+            --border-color: #ffdbbc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: var(--tertiary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: var(--highlight);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--highlight);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 125, 69, 0.3);
+        }
+        
+        .navbar {
+            background-color: var(--white);
+            box-shadow: 0 2px 8px rgba(255, 125, 69, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .hero-btn {
+            background-color: var(--white);
+            color: var(--primary-color);
+        }
+        
+        .hero-btn:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--highlight);
+        }
+        
+        .section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+        }
+        
+        .search-filter {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(255, 125, 69, 0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            font-size: 1rem;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-btn {
+            background-color: var(--tertiary-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(255, 125, 69, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(255, 125, 69, 0.2);
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .card-text {
+            color: var(--light-text);
+            margin-bottom: 15px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: var(--tertiary-color);
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+        }
+        
+        .job-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(255, 125, 69, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(255, 125, 69, 0.2);
+        }
+        
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .job-company {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+        
+        .job-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .job-detail {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--light-text);
+        }
+        
+        .job-apply {
+            display: flex;
+            align-items: center;
+        }
+        
+        .job-category {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-right: 15px;
+        }
+        
+        .category-big {
+            background-color: rgba(255, 125, 69, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .category-small {
+            background-color: rgba(115, 193, 103, 0.1);
+            color: #73c167;
+        }
+        
+        .apply-btn {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .select-filter {
+            padding: 8px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--white);
+            color: var(--text-color);
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .select-filter:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .mobile-nav {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-nav {
+                display: block;
+                position: relative;
+            }
+            
+            .hamburger {
+                cursor: pointer;
+                font-size: 1.5rem;
+                color: var(--primary-color);
+            }
+            
+            .mobile-menu {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background-color: var(--white);
+                border-radius: 5px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                padding: 15px;
+                min-width: 200px;
+                z-index: 100;
+            }
+            
+            .mobile-menu a {
+                display: block;
+                padding: 10px 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .mobile-menu a:last-child {
+                border-bottom: none;
+            }
+            
+            .job-header {
+                flex-direction: column;
+            }
+            
+            .job-apply {
+                margin-top: 15px;
+            }
+            
+            .filter-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="#" class="logo">易招信</a>
+            <div class="nav-links">
+                <a href="#big-companies">大厂招聘</a>
+                <a href="#small-companies">中小企业</a>
+                <a href="#graduate-services">就业平台</a>
+            </div>
+            <div class="mobile-nav">
+                <div class="hamburger">☰</div>
+                <div class="mobile-menu" style="display: none;">
+                    <a href="#big-companies">大厂招聘</a>
+                    <a href="#small-companies">中小企业</a>
+                    <a href="#graduate-services">就业平台</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="container">
+            <h1>找到你理想的工作</h1>
+            <p>易招信汇集了各大企业和平台的招聘信息，帮助你轻松找到合适的工作机会。</p>
+            <a href="#big-companies" class="btn hero-btn">浏览招聘信息</a>
+        </div>
+    </section>
+
+    <!-- 大厂招聘 -->
+    <section id="big-companies" class="section">
+        <div class="container">
+            <h2 class="section-title">大厂招聘</h2>
+            
+            <div class="search-filter">
+                <div class="search-box">
+                    <input type="text" placeholder="搜索公司名称" class="search-input" id="big-company-search">
+                </div>
+                
+                <div class="filters">
+                    <button class="filter-btn active" data-type="全部">全部</button>
+                    <button class="filter-btn" data-type="社招">社招</button>
+                    <button class="filter-btn" data-type="校招">校招</button>
+                </div>
+            </div>
+            
+            <div class="cards-container" id="big-company-container">
+                <!-- 大厂公司卡片 -->
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">腾讯</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://hr.tencent.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">阿里巴巴</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://job.alibaba.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">百度</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://talent.baidu.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">字节跳动</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://job.bytedance.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">华为</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://career.huawei.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">京东</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://campus.jd.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">小米</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://hr.xiaomi.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">美团</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://zhaopin.meituan.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">快手</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://school.kuaishou.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">拼多多</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://hr.pinduoduo.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">苏宁</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://hr.suning.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">中国移动</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://job.10086.cn" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">中国联通</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://www.chinaunicom.com.cn/46/menu01/528/column06" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">中国电信</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://job.chinatelecom.com.cn/wt/TELE/web/index#/" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">招商银行</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://career.cmbchina.com/home" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">工商银行</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://job.icbc.com.cn/pc/index.html#/main/school/home/post" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">中兴</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://job.zte.com.cn/cn/" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">海尔</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://www.haier.com/careers" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">美的集团</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://www.midea.com/careers" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">比亚迪</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://career.byd.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">网易</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://hr.163.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">哔哩哔哩</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://jobs.bilibili.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">小红书</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://hr.xiaohongshu.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">滴滴</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://talent.didiglobal.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">搜狗</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://www.sogou.com/docs/jobs/jobs_tech_04.htm" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">OPPO</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://career.oppo.com" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Vivo</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://hr.vivo.com/home" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">360</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://hr.360.cn/hr/" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">中国外运</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://sinotrans.zhiye.com/custom/social?hideAll=true&ky=&c1=&c2=&c=" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">新东方教育集团</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://zhaopin.xdf.cn/campus/jobs" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 中小企业招聘 -->
+    <section id="small-companies" class="section">
+        <div class="container">
+            <h2 class="section-title">中小企业招聘</h2>
+            
+            <div class="search-filter">
+                <div class="search-box">
+                    <input type="text" placeholder="搜索公司名称" class="search-input" id="small-company-search">
+                </div>
+                
+                <div class="filters">
+                    <button class="filter-btn active" data-type="全部">全部</button>
+                    <button class="filter-btn" data-type="社招">社招</button>
+                    <button class="filter-btn" data-type="校招">校招</button>
+                </div>
+            </div>
+            
+            <div class="cards-container" id="small-company-container">
+                <!-- 中小企业公司卡片 -->
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">豪威科技集团</h3>
+                        <p class="card-text">社招</p>
+                        <a href="http://www.hivac.cn/" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">浙江精工钢结构</h3>
+                        <p class="card-text">校招</p>
+                        <a href="http://www.600496.com/" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">天立电机</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://www.job5156.com/comp/zp-815822.html" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">重庆中邦药业</h3>
+                        <p class="card-text">校招</p>
+                        <a href="http://www.7ahr.com/Company/ListCompany-ehlu51.html" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">安徽金辉电子</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://www.qcc.com/firm/dee09a3d66f5d63f902cfae11b62cf76.html" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">物元青岛半导体公司</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://www.yingjiesheng.com/job-007-398-306.html" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">博鼎集团</h3>
+                        <p class="card-text">社招</p>
+                        <a href="http://www.dlypt.net/about" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">博创精工科技</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://bozhon3.zhiye.com/campus" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">腾盾科创</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://www.tengden.com/" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">江苏图南合金股份有限公司</h3>
+                        <p class="card-text">校招</p>
+                        <a href="http://www.toland-alloy.com/job.html" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">四川九洲投资控股集团有限公司</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://www.jezetek.cc/" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">烽火通信科技</h3>
+                        <p class="card-text">校招</p>
+                        <a href="https://www.fiberhome.com/joinus.html" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">深圳市创梦天地科技有限公司</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://www.idreamsky.com/" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">深圳市合元科技有限公司</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://kiem9mgc6h.jobs.feishu.cn/index" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">武汉光庭信息技术股份有限公司</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://kotei.zhiye.com/campus/" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">MiniMax公司</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://vrfi1sk8a0.jobs.feishu.cn/index" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">宇视科技</h3>
+                        <p class="card-text">社招</p>
+                        <a href="https://talent.uniview.com/index.html" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">石家庄邢森染料有限公司</h3>
+                        <p class="card-text">社招</p>
+                        <a href="http://shinedyes.com/" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">远大阀门集团有限公司</h3>
+                        <p class="card-text">社招</p>
+                        <a href="http://www.100famen.com/index/product/brand/3.html" target="_blank" class="btn apply-btn">前往招聘网站 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 大学生就业招聘平台 -->
+    <section id="graduate-services" class="section">
+        <div class="container">
+            <h2 class="section-title">大学生就业招聘平台</h2>
+            
+            <div class="search-filter">
+                <div class="search-box">
+                    <input type="text" placeholder="搜索平台名称" class="search-input" id="graduate-service-search">
+                </div>
+                
+                <div class="filters">
+                    <button class="filter-btn active" data-type="全部">全部</button>
+                    <button class="filter-btn" data-type="统招">统招</button>
+                    <button class="filter-btn" data-type="创业服务">创业服务</button>
+                    <button class="filter-btn" data-type="升学服务">升学服务</button>
+                </div>
+            </div>
+            
+            <div class="cards-container" id="graduate-service-container">
+                <!-- 大学生就业平台卡片 -->
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">河北省石家庄市人力资源和社会保障局</h3>
+                        <p class="card-text">校招</p>
+                        <p class="card-text">石家庄市官方人力资源和社会保障服务平台</p>
+                        <a href="https://rsj.sjz.gov.cn/?temp=wps2023%E6%94%BF%E5%BA%9C%E7%89%88" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">中国航天人才网</h3>
+                        <p class="card-text">统招</p>
+                        <p class="card-text">国家航天事业单位招聘平台</p>
+                        <a href="https://www.spacetalent.com.cn/zhiweicx.html" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">中国电建招聘平台</h3>
+                        <p class="card-text">统招</p>
+                        <p class="card-text">电力建设行业重点企业招聘</p>
+                        <a href="https://zhaopin.powerchina.cn/xyzp" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">中国南方电网</h3>
+                        <p class="card-text">统招</p>
+                        <p class="card-text">电网系统重点企业招聘</p>
+                        <a href="https://zhaopin.powerchina.cn/xyzp" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">中国兵器校园招聘平台</h3>
+                        <p class="card-text">统招</p>
+                        <p class="card-text">军工行业重点单位招聘</p>
+                        <a href="https://zhaopin.nhrdc.cn/campus/jobs.jsp" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">中央和国家机关所属事业单位</h3>
+                        <p class="card-text">统招</p>
+                        <p class="card-text">国家机关事业单位招聘信息</p>
+                        <a href="https://www.mohrss.gov.cn/SYrlzyhshbzb/fwyd/SYkaoshizhaopin/zyhgjjgsydwgkzp/" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">人力资源社会保障部事业单位招聘平台</h3>
+                        <p class="card-text">统招</p>
+                        <p class="card-text">全国事业单位公开招聘服务平台</p>
+                        <a href="https://www.sydwgkzp.cn/mohrss/index.html#/login" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">全国大学生创业服务网</h3>
+                        <p class="card-text">创业服务</p>
+                        <p class="card-text">专注大学生创业指导与服务</p>
+                        <a href="https://cy.ncss.cn/" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">研究生招生信息网</h3>
+                        <p class="card-text">升学服务</p>
+                        <p class="card-text">权威的研究生招生信息发布平台</p>
+                        <a href="https://yz.chsi.com.cn/" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">全国高校毕业生毕业去向登记系统</h3>
+                        <p class="card-text">就业统计</p>
+                        <p class="card-text">毕业生去向信息统计平台</p>
+                        <a href="https://dj.ncss.cn/" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">国际组织实习任职平台</h3>
+                        <p class="card-text">国际就业</p>
+                        <p class="card-text">国际组织实习与就业机会</p>
+                        <a href="https://gj.ncss.cn/" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">新疆籍毕业生就业创业信息平台</h3>
+                        <p class="card-text">区域就业</p>
+                        <p class="card-text">服务新疆籍毕业生就业创业</p>
+                        <a href="https://xj.ncss.cn/" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">应届生求职网</h3>
+                        <p class="card-text">校招</p>
+                        <p class="card-text">专注于应届生求职信息的综合平台</p>
+                        <a href="https://www.yingjiesheng.com/" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">中华英才网</h3>
+                        <p class="card-text">全招</p>
+                        <p class="card-text">提供全面的招聘信息和职业发展服务</p>
+                        <a href="http://www.chinahr.com/" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">智联招聘</h3>
+                        <p class="card-text">全招</p>
+                        <p class="card-text">全国性综合招聘平台</p>
+                        <a href="https://www.zhaopin.com/" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">前程无忧</h3>
+                        <p class="card-text">全招</p>
+                        <p class="card-text">提供多样化的招聘信息和职业规划服务</p>
+                        <a href="https://www.51job.com/" target="_blank" class="btn apply-btn">前往平台 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="section" style="background-color: var(--white); margin-top: 20px;">
+        <div class="container" style="text-align: center;">
+            <p>© 2025 易招信 - 招聘信息聚合平台</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; color: var(--light-text);">
+                本站仅收集整理招聘信息，所有招聘信息均来自各公司官方网站，请以官方信息为准
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // 职位数据
+        const positions = [
+            "前端开发工程师",
+            "后端开发工程师",
+            "全栈开发工程师",
+            "iOS开发工程师",
+            "Android开发工程师",
+            "算法工程师",
+            "数据分析师",
+            "产品经理",
+            "UI设计师",
+            "运维工程师",
+            "测试工程师",
+            "人工智能工程师",
+            "网络安全工程师",
+            "嵌入式开发工程师",
+            "项目经理",
+            "技术支持",
+            "销售代表",
+            "市场专员",
+            "人力资源专员",
+            "财务分析师"
+        ];
+
+        // 大厂公司列表
+        const bigCompanies = [
+            { name: "腾讯", type: "社招", url: "https://hr.tencent.com" },
+            { name: "阿里巴巴", type: "校招", url: "https://job.alibaba.com" },
+            { name: "百度", type: "社招", url: "https://talent.baidu.com" },
+            { name: "字节跳动", type: "校招", url: "https://job.bytedance.com" },
+            { name: "华为", type: "社招", url: "https://career.huawei.com" },
+            { name: "京东", type: "校招", url: "https://campus.jd.com" },
+            { name: "小米", type: "社招", url: "https://hr.xiaomi.com" },
+            { name: "美团", type: "校招", url: "https://zhaopin.meituan.com" },
+            { name: "快手", type: "社招", url: "https://school.kuaishou.com" },
+            { name: "拼多多", type: "校招", url: "https://hr.pinduoduo.com" },
+            { name: "苏宁", type: "社招", url: "https://hr.suning.com" },
+            { name: "中国移动", type: "校招", url: "https://job.10086.cn" },
+            { name: "中国联通", type: "社招", url: "https://www.chinaunicom.com.cn/46/menu01/528/column06" },
+            { name: "中国电信", type: "校招", url: "https://job.chinatelecom.com.cn/wt/TELE/web/index#/" },
+            { name: "招商银行", type: "社招", url: "https://career.cmbchina.com/home" },
+            { name: "工商银行", type: "校招", url: "https://job.icbc.com.cn/pc/index.html#/main/school/home/post" },
+            { name: "中兴", type: "社招", url: "https://job.zte.com.cn/cn/" },
+            { name: "海尔", type: "校招", url: "https://www.haier.com/careers" },
+            { name: "美的集团", type: "社招", url: "https://www.midea.com/careers" },
+            { name: "比亚迪", type: "校招", url: "https://career.byd.com" },
+            { name: "网易", type: "社招", url: "https://hr.163.com" },
+            { name: "哔哩哔哩", type: "校招", url: "https://jobs.bilibili.com" },
+            { name: "小红书", type: "社招", url: "https://hr.xiaohongshu.com" },
+            { name: "滴滴", type: "校招", url: "https://talent.didiglobal.com" },
+            { name: "搜狗", type: "社招", url: "https://www.sogou.com/docs/jobs/jobs_tech_04.htm" },
+            { name: "OPPO", type: "校招", url: "https://career.oppo.com" },
+            { name: "Vivo", type: "社招", url: "https://hr.vivo.com/home" },
+            { name: "360", type: "校招", url: "https://hr.360.cn/hr/" },
+            { name: "中国外运", type: "社招", url: "https://sinotrans.zhiye.com/custom/social?hideAll=true&ky=&c1=&c2=&c=" },
+            { name: "新东方教育集团", type: "校招", url: "https://zhaopin.xdf.cn/campus/jobs" }
+        ];
+
+        // 中小企业公司列表
+        const smallCompanies = [
+            { name: "豪威科技集团", type: "社招", url: "http://www.hivac.cn/" },
+            { name: "浙江精工钢结构", type: "校招", url: "http://www.600496.com/" },
+            { name: "天立电机", type: "社招", url: "https://www.job5156.com/comp/zp-815822.html" },
+            { name: "重庆中邦药业", type: "校招", url: "http://www.7ahr.com/Company/ListCompany-ehlu51.html" },
+            { name: "安徽金辉电子", type: "社招", url: "https://www.qcc.com/firm/dee09a3d66f5d63f902cfae11b62cf76.html" },
+            { name: "物元青岛半导体公司", type: "校招", url: "https://www.yingjiesheng.com/job-007-398-306.html" },
+            { name: "博鼎集团", type: "社招", url: "http://www.dlypt.net/about" },
+            { name: "博创精工科技", type: "校招", url: "https://bozhon3.zhiye.com/campus" },
+            { name: "腾盾科创", type: "社招", url: "https://www.tengden.com/" },
+            { name: "江苏图南合金股份有限公司", type: "校招", url: "http://www.toland-alloy.com/job.html" },
+            { name: "四川九洲投资控股集团有限公司", type: "社招", url: "https://www.jezetek.cc/" },
+            { name: "烽火通信科技", type: "校招", url: "https://www.fiberhome.com/joinus.html" },
+            { name: "深圳市创梦天地科技有限公司", type: "社招", url: "https://www.idreamsky.com/" },
+            { name: "深圳市合元科技有限公司", type: "社招", url: "https://kiem9mgc6h.jobs.feishu.cn/index" },
+            { name: "武汉光庭信息技术股份有限公司", type: "社招", url: "https://kotei.zhiye.com/campus/" },
+            { name: "MiniMax公司", type: "社招", url: "https://vrfi1sk8a0.jobs.feishu.cn/index" },
+            { name: "宇视科技", type: "社招", url: "https://talent.uniview.com/index.html" },
+            { name: "石家庄邢森染料有限公司", type: "社招", url: "http://shinedyes.com/" },
+            { name: "远大阀门集团有限公司", type: "社招", url: "http://www.100famen.com/index/product/brand/3.html" }
+        ];
+
+        // 大学生就业招聘平台列表
+        const graduateServices = [
+            {
+                name: "河北省石家庄市人力资源和社会保障局",
+                type: "校招",
+                url: "https://rsj.sjz.gov.cn/?temp=wps2023%E6%94%BF%E5%BA%9C%E7%89%88",
+                description: "石家庄市官方人力资源和社会保障服务平台"
+            },
+            {
+                name: "中国航天人才网",
+                type: "统招",
+                url: "https://www.spacetalent.com.cn/zhiweicx.html",
+                description: "国家航天事业单位招聘平台"
+            },
+            {
+                name: "中国电建招聘平台",
+                type: "统招",
+                url: "https://zhaopin.powerchina.cn/xyzp",
+                description: "电力建设行业重点企业招聘"
+            },
+            {
+                name: "中国南方电网",
+                type: "统招",
+                url: "https://zhaopin.powerchina.cn/xyzp",
+                description: "电网系统重点企业招聘"
+            },
+            {
+                name: "中国兵器校园招聘平台",
+                type: "统招",
+                url: "https://zhaopin.nhrdc.cn/campus/jobs.jsp",
+                description: "军工行业重点单位招聘"
+            },
+            {
+                name: "中央和国家机关所属事业单位",
+                type: "统招",
+                url: "https://www.mohrss.gov.cn/SYrlzyhshbzb/fwyd/SYkaoshizhaopin/zyhgjjgsydwgkzp/",
+                description: "国家机关事业单位招聘信息"
+            },
+            {
+                name: "人力资源社会保障部事业单位招聘平台",
+                type: "统招",
+                url: "https://www.sydwgkzp.cn/mohrss/index.html#/login",
+                description: "全国事业单位公开招聘服务平台"
+            },
+            {
+                name: "全国大学生创业服务网",
+                type: "创业服务",
+                url: "https://cy.ncss.cn/",
+                description: "专注大学生创业指导与服务"
+            },
+            {
+                name: "研究生招生信息网",
+                type: "升学服务",
+                url: "https://yz.chsi.com.cn/",
+                description: "权威的研究生招生信息发布平台"
+            },
+            {
+                name: "全国高校毕业生毕业去向登记系统",
+                type: "就业统计",
+                url: "https://dj.ncss.cn/",
+                description: "毕业生去向信息统计平台"
+            },
+            {
+                name: "国际组织实习任职平台",
+                type: "国际就业",
+                url: "https://gj.ncss.cn/",
+                description: "国际组织实习与就业机会"
+            },
+            {
+                name: "新疆籍毕业生就业创业信息平台",
+                type: "区域就业",
+                url: "https://xj.ncss.cn/",
+                description: "服务新疆籍毕业生就业创业"
+            },
+            {
+                name: "应届生求职网",
+                type: "校招",
+                url: "https://www.yingjiesheng.com/",
+                description: "专注于应届生求职信息的综合平台"
+            },
+            {
+                name: "中华英才网",
+                type: "全招",
+                url: "http://www.chinahr.com/",
+                description: "提供全面的招聘信息和职业发展服务"
+            },
+            {
+                name: "智联招聘",
+                type: "全招",
+                url: "https://www.zhaopin.com/",
+                description: "全国性综合招聘平台"
+            },
+            {
+                name: "前程无忧",
+                type: "全招",
+                url: "https://www.51job.com/",
+                description: "提供多样化的招聘信息和职业规划服务"
+            }
+        ];
+
+        // 城市列表
+        const locations = [
+            "北京市",
+            "上海市",
+            "广州市",
+            "深圳市",
+            "杭州市",
+            "成都市",
+            "武汉市",
+            "南京市",
+            "西安市",
+            "苏州市"
+        ];
+
+        // 移动端菜单切换
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (mobileMenu.style.display === 'none' || !mobileMenu.style.display) {
+                mobileMenu.style.display = 'block';
+            } else {
+                mobileMenu.style.display = 'none';
+            }
+        });
+        
+        // 点击移动菜单项后关闭菜单
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelector('.mobile-menu').style.display = 'none';
+            });
+        });
+        
+        // 筛选按钮点击事件
+        document.querySelectorAll('.filters .filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 移除所有按钮的active类
+                this.parentElement.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                
+                // 添加当前按钮的active类
+                this.classList.add('active');
+                
+                // 执行筛选逻辑
+                const type = this.getAttribute('data-type');
+                const container = this.closest('section').querySelector('.cards-container');
+                
+                if (type === '全部') {
+                    container.querySelectorAll('.card').forEach(card => {
+                        card.style.display = 'block';
+                    });
+                } else {
+                    container.querySelectorAll('.card').forEach(card => {
+                        const cardType = card.querySelector('.card-text').textContent;
+                        if (cardType === type) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        });
+        
+        // 搜索框输入事件
+        document.querySelectorAll('.search-input').forEach(input => {
+            input.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const container = this.closest('section').querySelector('.cards-container');
+                
+                // 公司或平台搜索
+                container.querySelectorAll('.card').forEach(card => {
+                    const title = card.querySelector('.card-title').textContent.toLowerCase();
+                    const description = card.querySelectorAll('.card-text')[1]?.textContent.toLowerCase() || '';
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

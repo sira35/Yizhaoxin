@@ -505,6 +505,451 @@
             transform: scale(1.05);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
+
+        /* 内容区域样式 */
+        #content-container {
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 导航样式 */
+        .nav-tab {
+            position: relative;
+            padding: 10px 15px !important;
+            margin: 0 5px;
+            border-radius: 30px !important;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .nav-tab::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: rgba(255, 125, 69, 0.1);
+            transition: height 0.3s;
+            z-index: -1;
+            border-radius: 30px;
+        }
+
+        .nav-tab:hover::before,
+        .nav-tab.active::before {
+            height: 100%;
+        }
+
+        .nav-tab.active {
+            color: var(--primary-color) !important;
+            font-weight: 600;
+        }
+
+        /* 公司避坑指南样式 */
+        .guide-section {
+            padding: 40px 0;
+            background-color: var(--tertiary-color);
+        }
+
+        .guide-layout {
+            display: flex;
+            gap: 30px;
+        }
+
+        .guide-column {
+            flex: 1;
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(255, 125, 69, 0.1);
+        }
+
+        .guide-column h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .guide-column h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .guide-card {
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .guide-card h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .guide-card p {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .guide-date {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: var(--light-text);
+        }
+
+        /* AI工具部分样式 */
+        .ai-tools-section {
+            padding: 80px 0;
+            background-color: var(--tertiary-color);
+            text-align: center;
+        }
+
+        .coming-soon {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(255, 125, 69, 0.15);
+        }
+
+        .coming-soon-icon {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .coming-soon h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .coming-soon p {
+            color: var(--text-color);
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .coming-soon-date {
+            display: inline-block;
+            background-color: var(--tertiary-color);
+            color: var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .guide-layout {
+                flex-direction: column;
+            }
+            
+            .coming-soon {
+                padding: 30px 20px;
+            }
+            
+            .coming-soon-icon {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .coming-soon h2 {
+                font-size: 1.8rem;
+            }
+            
+            .coming-soon p {
+                font-size: 1rem;
+            }
+        }
+
+        /* 页脚样式 */
+        .footer {
+            background-color: var(--white);
+            padding: 40px 0 20px;
+            margin-top: 50px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-section p {
+            color: var(--text-color);
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: var(--text-color);
+            transition: color 0.3s;
+            display: block;
+            padding: 5px 0;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .qr-code {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .contact {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-bottom p {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+
+        .disclaimer {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: modalopen 0.5s;
+        }
+
+        @keyframes modalopen {
+            from {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-button {
+            color: var(--light-text);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            color: var(--primary-color);
+        }
+
+        .modal-body {
+            margin-top: 20px;
+            padding: 10px;
+        }
+
+        .modal-body h3 {
+            color: var(--primary-color);
+            margin: 20px 0 10px;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .footer-section {
+                margin-bottom: 30px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 15px;
+            }
+        }
+
+        /* 帮助中心区域新样式 */
+        .qr-code-trigger {
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.1rem;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: var(--tertiary-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .qr-code-trigger:hover {
+            background-color: rgba(255, 125, 69, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .agent-info {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #eee;
+        }
+
+        .agent-info p {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        /* 二维码模态框特殊样式 */
+        .qr-modal-content {
+            max-width: 400px;
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #ffffff, #f5f5f5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-code-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .qr-code-image {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .qr-code-image:hover {
+            transform: scale(1.05);
+        }
+
+        .qr-code-container p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -513,147 +958,337 @@
         <div class="nav-container">
             <a href="#" class="logo">易招信</a>
             <div class="nav-links">
-                <a href="#big-companies">大厂招聘</a>
-                <a href="#sme">中小企业</a>
-                <a href="#campus">校园招聘</a>
+                <a href="#" data-tab="recruitment" class="nav-tab active">招聘信息</a>
+                <a href="#" data-tab="guide" class="nav-tab">公司避坑指南</a>
+                <a href="#" data-tab="ai-tools" class="nav-tab">AI工具</a>
             </div>
         </div>
     </nav>
 
-    <!-- 英雄区域 -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>易招信 - 招聘信息聚合平台</h1>
-            <p>汇聚优质招聘信息，助力求职者找到理想工作</p>
-            
-            <!-- 企业名称轮播 -->
-            <div class="company-carousel-container">
-                <div class="company-carousel">
-                    <div class="company-item">
-                        <a href="http://www.sxsmtr.cn/" target="_blank">绍兴市动道交通集团</a>
+    <!-- 主要内容区域 -->
+    <div id="content-container">
+        <!-- 招聘信息内容区 -->
+        <div id="recruitment-content" class="tab-content active">
+            <!-- 英雄区域 -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>易招信 - 招聘信息聚合平台</h1>
+                    <p>汇聚优质招聘信息，助力求职者找到理想工作</p>
+                    
+                    <!-- 企业名称轮播 -->
+                    <div class="company-carousel-container">
+                        <div class="company-carousel">
+                            <div class="company-item">
+                                <a href="http://www.sxsmtr.cn/" target="_blank">绍兴市动道交通集团</a>
+                            </div>
+                            <div class="company-item">
+                                <a href="https://recruitment.t-head.cn/campus/home?lang=zh" target="_blank">平头哥半导体有限公司-上海</a>
+                            </div>
+                            <div class="company-item">
+                                <a href="https://career.ifeng.com/job/recruit/0/" target="_blank">凤凰新媒设-设报</a>
+                            </div>
+                            <div class="company-item">
+                                <a href="https://hr.bjx.com.cn/hotword/4051008/" target="_blank">昆明钢铁集团有限公司</a>
+                            </div>
+                            <div class="company-item">
+                                <a href="http://cq.bendibao.com/job/20221114/120390.shtm" target="_blank">本地宝-重庆国企信息汇总</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="company-item">
-                        <a href="https://recruitment.t-head.cn/campus/home?lang=zh" target="_blank">平头哥半导体有限公司-上海</a>
-                    </div>
-                    <div class="company-item">
-                        <a href="https://career.ifeng.com/job/recruit/0/" target="_blank">凤凰新媒设-设报</a>
-                    </div>
-                    <div class="company-item">
-                        <a href="https://hr.bjx.com.cn/hotword/4051008/" target="_blank">昆明钢铁集团有限公司</a>
-                    </div>
-                    <div class="company-item">
-                        <a href="http://cq.bendibao.com/job/20221114/120390.shtm" target="_blank">本地宝-重庆国企信息汇总</a>
+                    
+                    <!-- 圆形按钮导航 -->
+                    <div class="circle-nav">
+                        <button class="circle-btn" data-target="big-companies">
+                            大厂
+                        </button>
+                        <button class="circle-btn" data-target="sme">
+                            中小企业
+                        </button>
+                        <button class="circle-btn" data-target="campus">
+                            校园招聘
+                        </button>
                     </div>
                 </div>
-            </div>
-            
-            <!-- 圆形按钮导航 -->
-            <div class="circle-nav">
-                <button class="circle-btn" data-target="big-companies">
-                    大厂
-                </button>
-                <button class="circle-btn" data-target="sme">
-                    中小企业
-                </button>
-                <button class="circle-btn" data-target="campus">
-                    校园招聘
-                </button>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- 大厂招聘 -->
-    <section id="big-companies" class="section active">
-        <div class="container">
-            <h2 class="section-title">大厂招聘</h2>
-            <div class="search-filter">
-                <div class="search-box">
-                    <input type="text" class="search-input" placeholder="搜索公司...">
+            <!-- 大厂招聘 -->
+            <section id="big-companies" class="section active">
+                <div class="container">
+                    <h2 class="section-title">大厂招聘</h2>
+                    <div class="search-filter">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="搜索公司名称、职位或地区...">
+                            <button class="search-btn">搜索</button>
+                        </div>
+                        <div class="filters">
+                            <button class="filter-btn active" data-type="全部">全部</button>
+                            <button class="filter-btn" data-type="社招">社招</button>
+                            <button class="filter-btn" data-type="校招">校招</button>
+                            <button class="filter-btn" data-type="统招">统招</button>
+                        </div>
+                        <div class="filters" style="margin-top: 15px;">
+                            <button class="filter-btn location-btn active" data-location="全部">全部地区</button>
+                            <button class="filter-btn location-btn" data-location="北京">北京</button>
+                            <button class="filter-btn location-btn" data-location="上海">上海</button>
+                            <button class="filter-btn location-btn" data-location="广州">广州</button>
+                            <button class="filter-btn location-btn" data-location="深圳">深圳</button>
+                            <button class="filter-btn location-btn" data-location="杭州">杭州</button>
+                            <button class="filter-btn location-btn" data-location="天津">天津</button>
+                            <button class="filter-btn location-btn" data-location="武汉">武汉</button>
+                            <button class="filter-btn location-btn" data-location="哈尔滨">哈尔滨</button>
+                        </div>
+                    </div>
+                    <div class="cards-container">
+                        <!-- 卡片将由JavaScript动态生成 -->
+                    </div>
                 </div>
-                <div class="filters">
-                    <button class="filter-btn active" data-type="全部">全部</button>
-                    <button class="filter-btn" data-type="社招">社招</button>
-                    <button class="filter-btn" data-type="校招">校招</button>
-                </div>
-                <div class="filters" style="margin-top: 10px;">
-                    <button class="filter-btn location-btn active" data-location="全部">全部地区</button>
-                    <button class="filter-btn location-btn" data-location="北京">北京</button>
-                    <button class="filter-btn location-btn" data-location="上海">上海</button>
-                    <button class="filter-btn location-btn" data-location="广州">广州</button>
-                    <button class="filter-btn location-btn" data-location="深圳">深圳</button>
-                    <button class="filter-btn location-btn" data-location="杭州">杭州</button>
-                    <button class="filter-btn location-btn" data-location="天津">天津</button>
-                    <button class="filter-btn location-btn" data-location="武汉">武汉</button>
-                    <button class="filter-btn location-btn" data-location="哈尔滨">哈尔滨</button>
-                </div>
-            </div>
-            <div class="cards-container">
-                <!-- 卡片将由JavaScript动态生成 -->
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- 中小企业招聘 -->
-    <section id="sme" class="section">
-        <div class="container">
-            <h2 class="section-title">中小企业招聘</h2>
-            <div class="search-filter">
-                <div class="search-box">
-                    <input type="text" class="search-input" placeholder="搜索公司...">
+            <!-- 中小企业招聘 -->
+            <section id="sme" class="section">
+                <div class="container">
+                    <h2 class="section-title">中小企业招聘</h2>
+                    <div class="search-filter">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="搜索公司名称、职位或地区...">
+                            <button class="search-btn">搜索</button>
+                        </div>
+                        <div class="filters">
+                            <button class="filter-btn active" data-type="全部">全部</button>
+                            <button class="filter-btn" data-type="社招">社招</button>
+                            <button class="filter-btn" data-type="校招">校招</button>
+                            <button class="filter-btn" data-type="统招">统招</button>
+                        </div>
+                        <div class="filters" style="margin-top: 15px;">
+                            <button class="filter-btn location-btn active" data-location="全部">全部地区</button>
+                            <button class="filter-btn location-btn" data-location="广州">广州</button>
+                            <button class="filter-btn location-btn" data-location="深圳">深圳</button>
+                            <button class="filter-btn location-btn" data-location="苏州">苏州</button>
+                            <button class="filter-btn location-btn" data-location="天津">天津</button>
+                            <button class="filter-btn location-btn" data-location="厦门">厦门</button>
+                        </div>
+                    </div>
+                    <div class="cards-container">
+                        <!-- 卡片将由JavaScript动态生成 -->
+                    </div>
                 </div>
-                <div class="filters">
-                    <button class="filter-btn active" data-type="全部">全部</button>
-                    <button class="filter-btn" data-type="社招">社招</button>
-                    <button class="filter-btn" data-type="校招">校招</button>
-                </div>
-                <div class="filters" style="margin-top: 10px;">
-                    <button class="filter-btn location-btn active" data-location="全部">全部地区</button>
-                    <button class="filter-btn location-btn" data-location="广州">广州</button>
-                    <button class="filter-btn location-btn" data-location="深圳">深圳</button>
-                    <button class="filter-btn location-btn" data-location="苏州">苏州</button>
-                    <button class="filter-btn location-btn" data-location="天津">天津</button>
-                    <button class="filter-btn location-btn" data-location="厦门">厦门</button>
-                </div>
-            </div>
-            <div class="cards-container">
-                <!-- 卡片将由JavaScript动态生成 -->
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- 大学生就业招聘平台 -->
-    <section id="campus" class="section">
-        <div class="container">
-            <h2 class="section-title">大学生就业招聘平台</h2>
-            <div class="search-filter">
-                <div class="search-box">
-                    <input type="text" class="search-input" placeholder="搜索平台...">
+            <!-- 大学生就业招聘平台 -->
+            <section id="campus" class="section">
+                <div class="container">
+                    <h2 class="section-title">大学生就业招聘平台</h2>
+                    <div class="search-filter">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="搜索平台名称...">
+                            <button class="search-btn">搜索</button>
+                        </div>
+                        <div class="filters">
+                            <button class="filter-btn active" data-type="全部">全部</button>
+                            <button class="filter-btn" data-type="创业服务">创业服务</button>
+                        </div>
+                    </div>
+                    <div class="cards-container">
+                        <!-- 卡片将由JavaScript动态生成 -->
+                    </div>
                 </div>
-                <div class="filters">
-                    <button class="filter-btn active" data-type="全部">全部</button>
-                    <button class="filter-btn" data-type="统招">统招</button>
-                    <button class="filter-btn" data-type="校招">校招</button>
-                    <button class="filter-btn" data-type="创业服务">创业服务</button>
-                </div>
-            </div>
-            <div class="cards-container">
-                <!-- 卡片将由JavaScript动态生成 -->
-            </div>
+            </section>
         </div>
-    </section>
+
+        <!-- 公司避坑指南内容区 -->
+        <div id="guide-content" class="tab-content">
+            <section class="guide-section">
+                <div class="container">
+                    <div class="guide-layout">
+                        <div class="guide-column announcements">
+                            <h2>公告</h2>
+                            <div class="guide-card">
+                                <h3>欢迎词</h3>
+                                <p>大家好！欢迎体验"易招聘"——一个专为咱们普通人打造的招聘信息聚合平台！</p>
+                                <p>平台的核心理念是去中心化和匿名性。无论是应届毕业生还是职场人士，都能放心分享真实想法，不用担心被打压或报复。我们的目标是保护大家的权益，让每个人都有发声的机会。</p>
+                            </div>
+                            <div class="guide-card">
+                                <h3>我们的使命</h3>
+                                <p>帮你少踩坑：特别是刚出校门的大学生，找工作容易被忽悠，我们希望通过真实的信息，帮你少走弯路，少花冤枉钱。</p>
+                                <p>给你说话的地儿：身为小人物，咱们平时声音小，在这儿，你可以畅所欲言，分享自己的职场经历。</p>
+                                <p>打造干净平台：我们希望这里的信息尽量真实靠谱，少点套路，多点真诚。</p>
+                            </div>
+                            <div class="guide-card">
+                                <h3>小小的请求</h3>
+                                <p>我们特别欢迎大家实事求是地发言。你分享的每一条信息，可能不光帮自己避开坑，还能顺手拉别人一把。不过，请仔细甄别平台上的信息，避免被恶意信息误导。</p>
+                                <p>如果有任何疑问，请联系我们：527494471@qq.com</p>
+                            </div>
+                        </div>
+                        <div class="guide-column suggestions">
+                            <h2>建议</h2>
+                            <div class="guide-card">
+                                <h3>面试技巧</h3>
+                                <p>提前15分钟到达面试地点，着装得体，准备3-5个关于公司的问题，表现出对公司的了解和兴趣。</p>
+                            </div>
+                            <div class="guide-card">
+                                <h3>薪资谈判</h3>
+                                <p>薪资谈判前，了解行业和岗位的薪资范围，明确自己的期望值，同时考虑福利、晋升机会等综合因素。</p>
+                            </div>
+                            <div class="guide-card">
+                                <h3>避坑指南</h3>
+                                <p>入职前仔细阅读劳动合同，特别注意试用期条款、竞业限制、工作时间等关键信息，遇到不合理条款及时沟通或寻求法律建议。</p>
+                            </div>
+                            <div class="guide-card">
+                                <h3>技能提升</h3>
+                                <p>持续学习是职场成功的关键，建议定期更新简历，参加行业研讨会，拓展人脉资源，关注行业动态。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- AI工具内容区 -->
+        <div id="ai-tools-content" class="tab-content">
+            <section class="ai-tools-section">
+                <div class="container">
+                    <div class="coming-soon">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4616/4616734.png" alt="AI工具" class="coming-soon-icon">
+                        <h2>功能正在开发中</h2>
+                        <p>我们正在为您打造最实用的AI求职助手工具，敬请期待~</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 
     <!-- 页脚 -->
-    <footer class="section" style="background-color: var(--white); margin-top: 20px;">
-        <div class="container" style="text-align: center;">
-            <p>© 2025 易招信 - 招聘信息聚合平台</p>
-            <p style="margin-top: 10px; font-size: 0.9rem; color: var(--light-text);">
-                本站仅收集整理招聘信息，所有招聘信息均来自各公司官方网站，请以官方信息为准
-            </p>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <h3>关于我们</h3>
+                    <p>"易招信"是一个招聘信息聚合平台，我们致力于为求职者提供最真实、最直接的招聘信息。我们采用网上的官方链接，减少中介市场干预，为广大寻找工作的用户提供便捷服务。</p>
+                    <p>我们的使命是帮助每一位求职者找到心仪的工作，同时提供公平、透明的职场环境信息。</p>
+                </div>
+                <div class="footer-section help">
+                    <h3>帮助中心</h3>
+                    <p class="qr-code-trigger">扫描二维码，获取更多帮助</p>
+                    <p class="contact">联系我们：527494471@qq.com</p>
+                    <div class="agent-info">
+                        <p>诚招市场代理，共享蓝海市场红利，提供高额返佣，收益稳定。</p>
+                        <p>招募市场推广合作伙伴，享受租金返佣及长期收益回报。</p>
+                    </div>
+                </div>
+                <div class="footer-section links">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="#" data-tab="recruitment">招聘信息</a></li>
+                        <li><a href="#" data-tab="guide">公司避坑指南</a></li>
+                        <li><a href="#" data-tab="ai-tools">AI工具</a></li>
+                        <li><a href="#privacy-modal" class="privacy-link">隐私政策</a></li>
+                        <li><a href="#terms-modal" class="terms-link">使用条款</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 易招信 - 招聘信息聚合平台，保留所有权利</p>
+                <p class="disclaimer">本站仅收集整理招聘信息，所有招聘信息均来自各公司官方网站，请以官方信息为准</p>
+            </div>
         </div>
     </footer>
 
+    <!-- 隐私政策模态框 -->
+    <div id="privacy-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>隐私政策</h2>
+            <div class="modal-body">
+                <p>易招信平台尊重并保护用户的隐私权。本隐私政策旨在向您说明我们如何收集、使用、存储和分享您的个人信息，以及您享有的相关权利。</p>
+                <h3>信息收集</h3>
+                <p>我们仅收集用户自愿提供的基本信息，用于提供更好的服务体验。这些信息可能包括您的电子邮件地址、姓名等。</p>
+                <h3>信息使用</h3>
+                <p>我们承诺不会将您的个人信息出售、出租或以其他方式提供给任何第三方，除非获得您的明确授权。</p>
+                <h3>数据安全</h3>
+                <p>我们采取合理的安全措施保护您的个人信息，防止未经授权的访问、使用或披露。</p>
+                <p>如有任何关于隐私政策的问题，请联系我们：527494471@qq.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用条款模态框 -->
+    <div id="terms-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>使用条款</h2>
+            <div class="modal-body">
+                <p>欢迎使用易招信平台。使用本网站即表示您同意遵守以下条款和条件：</p>
+                <h3>内容准确性</h3>
+                <p>我们尽力确保网站上的信息准确无误，但不对其完整性和时效性作出保证。用户在做出任何决定前应自行核实相关信息。</p>
+                <h3>用户行为</h3>
+                <p>用户不得发布侵犯他人权益、违反法律法规或含有歧视、威胁等不当内容的信息。我们保留删除违规内容的权利。</p>
+                <h3>免责声明</h3>
+                <p>本平台仅提供信息聚合服务，不对用户通过本平台获取的招聘信息真实性负责，不承担由此产生的任何纠纷或损失。</p>
+                <p>如有任何问题，请联系我们：527494471@qq.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 二维码模态框 -->
+    <div id="qrCodeModal" class="modal">
+        <div class="modal-content qr-modal-content">
+            <span class="close">&times;</span>
+            <h2>扫描二维码获取帮助</h2>
+            <div class="qr-code-container">
+                <img src="./images/qrcode.png" alt="微信二维码" class="qr-code-image">
+                <p>扫描上方二维码，添加客服微信获取更多帮助</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // 导航标签切换功能
+            const navTabs = document.querySelectorAll('.nav-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // 移除所有active类
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // 添加active类到当前选中的标签
+                    tab.classList.add('active');
+                    
+                    // 显示对应的内容区域
+                    const targetTab = tab.getAttribute('data-tab');
+                    document.getElementById(`${targetTab}-content`).classList.add('active');
+                });
+            });
+
+            // 动态创建二维码图像
+            function createQRCodeImage() {
+                // 获取二维码容器
+                const qrContainer = document.querySelector('.qr-code-container');
+                
+                // 清空容器内容
+                qrContainer.innerHTML = '';
+                
+                // 创建新的图片元素
+                const img = document.createElement('img');
+                img.className = 'qr-code-img';
+                img.alt = '联系我们';
+                
+                // 设置图片源（尝试多种方式）
+                img.src = './images/qrcode.png'; // 本地图片路径
+                
+                // 创建描述段落
+                const p = document.createElement('p');
+                p.textContent = '扫描上方二维码,添加客服微信获取更多帮助';
+                
+                // 添加元素到容器
+                qrContainer.appendChild(img);
+                qrContainer.appendChild(p);
+            }
+
             // 初始化数据
             const companiesData = {
                 'big-companies': [
@@ -880,6 +1515,57 @@
             
             // 初始化轮播
             setupCarousel();
+
+            // 处理模态框
+            const privacyModal = document.getElementById('privacy-modal');
+            const termsModal = document.getElementById('terms-modal');
+            const qrCodeModal = document.getElementById('qrCodeModal');
+            const privacyLink = document.querySelector('.privacy-link');
+            const termsLink = document.querySelector('.terms-link');
+            const qrCodeTrigger = document.querySelector('.qr-code-trigger');
+            const closeButtons = document.querySelectorAll('.close-button');
+            
+            // 点击隐私政策链接
+            privacyLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                privacyModal.style.display = 'block';
+            });
+            
+            // 点击使用条款链接
+            termsLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                termsModal.style.display = 'block';
+            });
+            
+            // 点击二维码触发器
+            qrCodeTrigger.addEventListener('click', function() {
+                // 动态创建二维码图像
+                createQRCodeImage();
+                // 显示模态框
+                qrCodeModal.style.display = 'block';
+            });
+            
+            // 点击关闭按钮
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    privacyModal.style.display = 'none';
+                    termsModal.style.display = 'none';
+                    qrCodeModal.style.display = 'none';
+                });
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(e) {
+                if (e.target == privacyModal) {
+                    privacyModal.style.display = 'none';
+                }
+                if (e.target == termsModal) {
+                    termsModal.style.display = 'none';
+                }
+                if (e.target == qrCodeModal) {
+                    qrCodeModal.style.display = 'none';
+                }
+            });
         });
     </script>
 </body>
